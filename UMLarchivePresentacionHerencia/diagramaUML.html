@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diagrama UML recreado</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 25px;
+        color: #1f2937;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        border: 2px solid #333;
+        border-radius: 8px;
+        background: #f9fafb;
+        padding: 14px;
+      }
+
+      .card h2 {
+        text-align: center;
+        margin: 0 0 10px 0;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 4px 0;
+        line-height: 1.5;
+      }
+
+      .multiline {
+        white-space: pre-line;
+      }
+
+      .small {
+        font-size: 0.9rem;
+      }
+
+      button {
+        margin-top: 18px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      pre {
+        background: #111827;
+        color: #d1fae5;
+        padding: 15px;
+        border-radius: 10px;
+        overflow: auto;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Diagrama UML recreado en JavaScript</h1>
+
+      <div class="grid">
+        <div class="card">
+          <h2>Usuario</h2>
+          <p><strong>id:</strong> string</p>
+          <p><strong>nombre:</strong> string</p>
+          <p><strong>email:</strong> string</p>
+          <p><strong>telefono:</strong> string</p>
+          <p><strong>rol:</strong> string</p>
+          <p><strong>created_at:</strong> Date</p>
+          <p class="small multiline">+ actualizarPerfil(...)
++ validarEmail(): boolean
++ esConsumidor(): boolean
++ esProductor(): boolean</p>
+        </div>
+
+        <div class="card">
+          <h2>Productora</h2>
+          <p><strong>id:</strong> string</p>
+          <p><strong>usuario_id:</strong> string</p>
+          <p><strong>nombre_finca:</strong> string</p>
+          <p><strong>ubicacion:</strong> string</p>
+          <p><strong>descripcion:</strong> string</p>
+          <p><strong>foto_url:</strong> string</p>
+          <p class="small multiline">+ validarDatos(): boolean
++ actualizarInformacion(...): void
++ publicarProducto(producto: Producto): void</p>
+        </div>
+
+        <div class="card">
+          <h2>Producto</h2>
+          <p><strong>id:</strong> string</p>
+          <p><strong>productora_id:</strong> string</p>
+          <p><strong>nombre:</strong> string</p>
+          <p><strong>descripcion:</strong> string</p>
+          <p><strong>precio:</strong> number</p>
+          <p><strong>unidad_medida:</strong> string</p>
+          <p><strong>stock_disponible:</strong> number</p>
+          <p><strong>foto_url:</strong> string</p>
+          <p><strong>estado:</strong> string</p>
+          <p class="small multiline">+ actualizarPrecio(...): void
++ actualizarStock(...): void
++ verificarDisponibilidad(...): boolean
++ calcularSubtotal(...): number
++ cambiarEstado(...): void</p>
+        </div>
+
+        <div class="card">
+          <h2>Pedido</h2>
+          <p><strong>id:</strong> string</p>
+          <p><strong>consumidor_id:</strong> string</p>
+          <p><strong>productora_id:</strong> string</p>
+          <p><strong>total:</strong> number</p>
+          <p><strong>created_at:</strong> Date</p>
+          <p class="small multiline">+ agregarDetalle(detalle: DetallePedido): void
++ calcularTotal(): number
++ validarEstado(): boolean
++ cambiarEstado(estado: string): void
++ cancelar(): boolean</p>
+        </div>
+
+        <div class="card">
+          <h2>DetallePedido</h2>
+          <p><strong>id:</strong> string</p>
+          <p><strong>pedido_id:</strong> string</p>
+          <p><strong>producto_id:</strong> string</p>
+          <p><strong>cantidad:</strong> number</p>
+          <p><strong>precio_unitario:</strong> number</p>
+          <p><strong>subtotal:</strong> number</p>
+          <p class="small multiline">+ calcularSubtotal(): number
++ actualizarCantidad(...): void
++ validarCantidad(): boolean</p>
+        </div>
+
+        <div class="card">
+          <h2>Pago</h2>
+          <p><strong>id:</strong> string</p>
+          <p><strong>pedido_id:</strong> string</p>
+          <p><strong>metodo:</strong> string</p>
+          <p><strong>estado:</strong> string</p>
+          <p><strong>monto:</strong> number</p>
+          <p><strong>fecha:</strong> Date</p>
+          <p class="small multiline">+ validarMonto(): boolean
++ rechazarPago(): void
++ consultarEstado(): string</p>
+        </div>
+      </div>
+
+      <button onclick="ejecutarPrueba()">Ejecutar ejemplo</button>
+      <pre id="resultado"></pre>
+    </div>
+
+    <script src="./diagramaUML.js"></script>
+    <script>
+      function ejecutarPrueba() {
+        const consumidor = new Usuario('U-001', 'Ana Gómez', 'ana@gmail.com', '3001234567', 'consumidor');
+        const productora = new Productora({
+          id: 'P-001', nombre: 'María López', email: 'maria@finca.com', telefono: '3109876543', rol: 'productora',
+          usuario_id: 'U-002', nombre_finca: 'Finca La Esperanza', ubicacion: 'Popayán', descripcion: 'Producción orgánica', foto_url: 'https://example.com/finca.jpg'
+        });
+        const producto = new Producto({ id: 'PR-001', productora_id: 'P-001', nombre: 'Manzana roja', descripcion: 'Orgánica', precio: 2800, unidad_medida: 'kg', stock_disponible: 50, foto_url: 'https://example.com/manzana.jpg', estado: 'disponible' });
+        const detalle = new DetallePedido({ id: 'DP-001', pedido_id: 'PED-001', producto_id: 'PR-001', cantidad: 2, precio_unitario: 2800 });
+        const pedido = new Pedido({ id: 'PED-001', consumidor_id: consumidor.id, productora_id: productora.id });
+        pedido.agregarDetalle(detalle);
+        const pago = new Pago({ id: 'PG-001', pedido_id: pedido.id, metodo: 'Nequi', monto: pedido.total });
+
+        const salida = [
+          'USUARIO',
+          consumidor.actualizarPerfil('Ana García', 'ana.nueva@gmail.com', '3012223344', 'consumidor'),
+          'Email válido: ' + consumidor.validarEmail(),
+          '',
+          'PRODUCTORA',
+          productora.validarDatos(),
+          productora.publicarProducto(producto),
+          '',
+          'PRODUCTO',
+          'Disponibilidad: ' + producto.verificarDisponibilidad(3),
+          'Subtotal: ' + producto.calcularSubtotal(3),
+          '',
+          'PEDIDO',
+          'Total: ' + pedido.calcularTotal(),
+          pedido.cambiarEstado('confirmado'),
+          '',
+          'PAGO',
+          'Monto válido: ' + pago.validarMonto(),
+          'Estado: ' + pago.consultarEstado()
+        ].join('\n');
+
+        document.getElementById('resultado').textContent = salida;
+      }
+    </script>
+  </body>
+</html>
