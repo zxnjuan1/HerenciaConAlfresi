@@ -1,3 +1,5 @@
+//Juan Camilo Almanza -- Juan David Pinzon -- Mariana Allison Quemba 
+
 // Modelo UML recreado en JavaScript
 // Estructura principal: Usuario -> Productora / Consumidor
 // Relaciones: Productora administra productos, Pedido contiene detalles y Pago
